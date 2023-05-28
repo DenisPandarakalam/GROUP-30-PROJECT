@@ -30,13 +30,13 @@ with open('LogRegr_pickle.obj', 'rb') as f:
     classifier = pickle.load(f)
 
 with header:
-    st.title("Group 30: Heart-disease predictor")
-    st.text("Our group's project is to be able to create a model")
-    st.text("that will accurately determine whether a person is at risk")
-    st.text("of suffering a heart-attack")
-    
+    st.title("🩺 Group 30: Heart-disease predictor 🩺")
+    st.markdown("*Our group's project is to be able to create a model*")
+    st.markdown("*that will accurately determine whether a person is at risk*")
+    st.markdown("*of suffering a heart-attack*")
+
 with dataset:
-    st.header("Heart Disease Dataset")
+    st.header("📊 Heart Disease Dataset 📊")
     st.text("We found this dataset on Kaggle.com, and it features 14 attributes that range from")
     st.text("a person's age, sex, blood pressure, cholesterol, and more. Here is the dataset")
 
@@ -44,7 +44,7 @@ with dataset:
     st.write(df.head())
 
 with model_training:
-    st.header("Heart Disease Model")
+    st.header("💔 Heart Disease Model 💔")
     st.text("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of heart disease or not!")
     age = st.number_input("How old are you?")
     sex = st.number_input('Male (1) or Female (0) ?')
