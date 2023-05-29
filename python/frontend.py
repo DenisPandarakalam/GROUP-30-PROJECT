@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import numpy as np
 import operator
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -26,8 +27,11 @@ dataset = st.container()
 model_training = st.container()
 results = st.container()
 
-with open('LogRegr_pickle.obj', 'rb') as f:
-    classifier = pickle.load(f)
+with open('MLYoung_pickle.obj', 'rb') as f:
+    classifier_y = pickle.load(f)
+
+with open('MLOld_pickle.obj', 'rb') as f:
+    classifier_o = pickle.load(f)
 
 with header:
     st.title("🩺 Group 30: Heart-disease predictor 🩺")
@@ -64,8 +68,12 @@ with model_training:
     prediction = ''
 
     if st.button('Predict'):
-        prediction = classifier.predict(user_data)
-        prediction = 'Positive' if prediction[0]==1 else 'Negative'
+        if age >= 50:
+            prediction = classifier_o.predict(user_data)
+            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
+        else:
+            prediction = classifier_y.predict(user_data)
+            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
 
 with results:
     if prediction:
