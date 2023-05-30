@@ -3,6 +3,13 @@ import pickle
 import pandas as pd
 import numpy as np
 
+st.set_page_config(
+    page_title="Heart Disease Predictor",
+    page_icon="💔",
+    layout="centered"
+)
+
+# LOADING THE MODELS
 with open('./MLYoung_pickle.obj', 'rb') as f:
     classifier_y = pickle.load(f)
 
@@ -10,28 +17,52 @@ with open('./MLOld_pickle.obj', 'rb') as f:
     classifier_o = pickle.load(f)
 
     
-header          = st.container()
-dataset         = st.container()
-model_training  = st.container()
-results         = st.container()
+# HEADER SECTION
+headerContainer = st.container()
+headerText = """
+    _A Demonstration of Machine Learning in Medicine_
+"""
+headerDescription = """
+    We have created a model that accurately predicts the likelihood of a person having heart disease.
+"""
+with headerContainer:
+    st.title("""
+        💔 Heart Disease Predictor 💔
+        ---
+    """)
+    st.subheader(headerText)
+    st.markdown(headerDescription)
 
+# DATASET SECTION
+datasetContainer         = st.container()
+datasetTitle = "📊 Dataset 📊"
 
-with header:
-    st.title("🩺 Heart Disease Predictor 🩺")
-    st.markdown("*Our group's project is to be able to create a model*")
-    st.markdown("*that will accurately determine whether a person is at risk*")
-    st.markdown("*of suffering a heart-attack*")
+datasetLink = "https://www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset?resource=download"
+datasetText = """
+    Our training [dataset]({})
+    features 14 attributes
+    (age, sex, blood pressure, cholesterol, etc).
+""".format(datasetLink)
 
-with dataset:
-    st.header("📊 Heart Disease Dataset 📊")
-    st.text("We found this dataset on Kaggle.com, and it features 14 attributes that range from")
-    st.text("a person's age, sex, blood pressure, cholesterol, and more. Here is the dataset")
+if 'datasetExpanded' not in st.session_state:
+    st.session_state.datasetExpanded = False
+datasetExpander = st.expander("{} Preview".format("Hide" if st.session_state.datasetExpanded else "Show"), expanded=st.session_state.datasetExpanded)
+datasetCaption = """
+    _Here's a preview of the first five data points..._
+"""
 
-    df = pd.read_csv('./heart.csv')
-    st.write(df.head())
+with datasetContainer:
+    st.header(datasetTitle)
+    st.markdown(datasetText)
+    with datasetExpander:
+        st.session_state
+        st.caption(datasetCaption)
+        df = pd.read_csv('./heart.csv')
+        st.table(df.head())
 
-with model_training:
-    st.header("💔 Heart Disease Model 💔")
+modelContainer = st.container()
+with modelContainer:
+    st.header("🩺 Model 🩺")
     st.text("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of heart disease or not!")
     age = st.number_input("How old are you?")
     sex = st.number_input('Male (1) or Female (0) ?')
@@ -69,7 +100,8 @@ with model_training:
             prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
             prediction_percentage = prediction_percentage[0][prediction_ind]
 
-with results:
+resultContainer = st.container()
+with resultContainer:
     if prediction:
         st.title(f"Your prediction is: {prediction}")
         st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of having a heart disease.")
