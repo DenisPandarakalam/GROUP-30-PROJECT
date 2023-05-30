@@ -71,16 +71,20 @@ with model_training:
     if st.button('Predict'):
         if age >= 50:
             prediction = classifier_o.predict(user_data)
+            print(prediction)
             prediction_percentage = classifier_o.predict_proba(user_data)
-            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
-            prediction_percentage_ind = np.argmax(prediction_percentage) if prediction=='Positive' else np.argmin(prediction_percentage)
-            prediction_percentage = prediction_percentage[0][prediction_percentage_ind]
+            print(prediction_percentage)
+            prediction_ind = np.argmax(prediction_percentage)
+            prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
+            prediction_percentage = prediction_percentage[0][prediction_ind]
         else:
             prediction = classifier_y.predict(user_data)
+            print(prediction)
             prediction_percentage = classifier_o.predict_proba(user_data)
-            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
-            prediction_percentage_ind = np.argmax(prediction_percentage) if prediction=='Positive' else np.argmin(prediction_percentage)
-            prediction_percentage = prediction_percentage[0][prediction_percentage_ind]
+            print(prediction_percentage)
+            prediction_ind = np.argmax(prediction_percentage)
+            prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
+            prediction_percentage = prediction_percentage[0][prediction_ind]
 
 with results:
     if prediction:
