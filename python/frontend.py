@@ -27,10 +27,10 @@ dataset = st.container()
 model_training = st.container()
 results = st.container()
 
-with open('MLYoung_pickle.obj', 'rb') as f:
+with open('python/MLYoung_pickle.obj', 'rb') as f:
     classifier_y = pickle.load(f)
 
-with open('MLOld_pickle.obj', 'rb') as f:
+with open('python/MLOld_pickle.obj', 'rb') as f:
     classifier_o = pickle.load(f)
 
 with header:
@@ -66,15 +66,27 @@ with model_training:
 
     user_data = [[age, sex, cp, trt, chol, fbs, restecg, thalachh, exng, oldpeak, slp, caa, thall]]
     prediction = ''
+    prediction_percentage = ''
 
     if st.button('Predict'):
         if age >= 50:
             prediction = classifier_o.predict(user_data)
-            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
+            print(prediction)
+            prediction_percentage = classifier_o.predict_proba(user_data)
+            print(prediction_percentage)
+            prediction_ind = np.argmax(prediction_percentage)
+            prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
+            prediction_percentage = prediction_percentage[0][prediction_ind]
         else:
             prediction = classifier_y.predict(user_data)
-            prediction = 'Positive' if np.argmax(prediction)==1 else 'Negative'
+            print(prediction)
+            prediction_percentage = classifier_o.predict_proba(user_data)
+            print(prediction_percentage)
+            prediction_ind = np.argmax(prediction_percentage)
+            prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
+            prediction_percentage = prediction_percentage[0][prediction_ind]
 
 with results:
     if prediction:
         st.title(f"Your prediction is: {prediction}")
+        st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of having a heart disease.")
