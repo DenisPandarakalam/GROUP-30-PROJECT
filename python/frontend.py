@@ -3,15 +3,18 @@ import pickle
 import pandas as pd
 import numpy as np
 
+with open('./MLYoung_pickle.obj', 'rb') as f:
+    classifier_y = pickle.load(f)
 
-classifier_y = pickle.load(open('./MLYoung_pickle.obj', 'rb'))
-classifier_o = pickle.load(open('./MLOld_pickle.obj', 'rb'))
+with open('./MLOld_pickle.obj', 'rb') as f:
+    classifier_o = pickle.load(f)
 
+    
+header          = st.container()
+dataset         = st.container()
+model_training  = st.container()
+results         = st.container()
 
-header = st.container()
-dataset = st.container()
-model_training = st.container()
-results = st.container()
 
 with header:
     st.title("🩺 Heart Disease Predictor 🩺")
