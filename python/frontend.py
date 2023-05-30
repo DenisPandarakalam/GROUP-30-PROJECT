@@ -2,39 +2,19 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
-import operator
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix, multilabel_confusion_matrix
-from sklearn.metrics import mean_squared_error, accuracy_score, precision_score, recall_score
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.model_selection import KFold   
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB, CategoricalNB
-from sklearn.metrics import classification_report
-from sklearn.svm import SVC
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV
+
+
+classifier_y = pickle.load(open('./MLYoung_pickle.obj', 'rb'))
+classifier_o = pickle.load(open('./MLOld_pickle.obj', 'rb'))
+
 
 header = st.container()
 dataset = st.container()
 model_training = st.container()
 results = st.container()
 
-with open('python/MLYoung_pickle.obj', 'rb') as f:
-    classifier_y = pickle.load(f)
-
-with open('python/MLOld_pickle.obj', 'rb') as f:
-    classifier_o = pickle.load(f)
-
 with header:
-    st.title("🩺 Group 30: Heart-disease predictor 🩺")
+    st.title("🩺 Heart Disease Predictor 🩺")
     st.markdown("*Our group's project is to be able to create a model*")
     st.markdown("*that will accurately determine whether a person is at risk*")
     st.markdown("*of suffering a heart-attack*")
