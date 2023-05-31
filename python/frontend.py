@@ -34,7 +34,8 @@ with headerContainer:
     st.markdown(headerDescription)
 
 # DATASET SECTION
-datasetContainer         = st.container()
+datasetContainer = st.container()
+
 datasetTitle = "📊 Dataset 📊"
 
 datasetLink = "https://www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset?resource=download"
@@ -44,28 +45,30 @@ datasetText = """
     (age, sex, blood pressure, cholesterol, etc).
 """.format(datasetLink)
 
-if 'datasetExpanded' not in st.session_state:
-    st.session_state.datasetExpanded = False
-datasetExpander = st.expander("{} Preview".format("Hide" if st.session_state.datasetExpanded else "Show"), expanded=st.session_state.datasetExpanded)
+datasetExpander = st.expander("_Show Preview_")
 datasetCaption = """
     _Here's a preview of the first five data points..._
 """
-
 with datasetContainer:
     st.header(datasetTitle)
     st.markdown(datasetText)
     with datasetExpander:
-        st.session_state
         st.caption(datasetCaption)
         df = pd.read_csv('./heart.csv')
         st.table(df.head())
 
+# MODEL SECTION
 modelContainer = st.container()
 with modelContainer:
     st.header("🩺 Model 🩺")
-    st.text("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of heart disease or not!")
-    age = st.number_input("How old are you?")
-    sex = st.number_input('Male (1) or Female (0) ?')
+    st.markdown("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of a heart attack or not!")
+    age = st.number_input("How old are you?", min_value=0, max_value=200, step=1, format="%d")
+    # age = st.slider("How old are you?", min_value=0, max_value=125, step=1, format="%d")
+
+    # sex = st.number_input('Male (1) or Female (0) ?')
+    sexRaw = st.radio("Gender", options=["Male", "Female"])
+    sex = 1 if sexRaw == "Male" else 0
+    
     cp = st.number_input('What type of chest pain do you have? (1) typical angina (2) atypical angina (3) non-anginal pain (4) asymptomatic')
     trt = st.number_input('What is resting blood pressure (in mm Hg)')
     chol = st.number_input('What is your cholesterol in mg/dl fetched via BMI sensor')
@@ -108,7 +111,7 @@ with modelContainer:
             prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
             prediction_percentage = prediction_percentage[0][positive_ind[0]][0]
 
-
+# RESULT SECTION
 resultContainer = st.container()
 with resultContainer:
     if prediction:
