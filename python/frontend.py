@@ -34,13 +34,13 @@ with open('python/MLOld_pickle.obj', 'rb') as f:
     classifier_o = pickle.load(f)
 
 with header:
-    st.title("🩺 Group 30: Heart-disease predictor 🩺")
+    st.title("🩺 Group 30: Heart attack predictor")
     st.markdown("*Our group's project is to be able to create a model*")
     st.markdown("*that will accurately determine whether a person is at risk*")
     st.markdown("*of suffering a heart-attack*")
 
 with dataset:
-    st.header("📊 Heart Disease Dataset 📊")
+    st.header("📊 Heart Attack Dataset 📊")
     st.text("We found this dataset on Kaggle.com, and it features 14 attributes that range from")
     st.text("a person's age, sex, blood pressure, cholesterol, and more. Here is the dataset")
 
@@ -48,8 +48,8 @@ with dataset:
     st.write(df.head())
 
 with model_training:
-    st.header("💔 Heart Disease Model 💔")
-    st.text("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of heart disease or not!")
+    st.header("💔 Heart Attack Model 💔")
+    st.text("Input your data as well and we'll be able to give you a prediction as to whether you're at risk of heart attack or not!")
     age = st.number_input("How old are you?")
     sex = st.number_input('Male (1) or Female (0) ?')
     cp = st.number_input('What type of chest pain do you have? (1) typical angina (2) atypical angina (3) non-anginal pain (4) asymptomatic')
@@ -98,4 +98,4 @@ with model_training:
 with results:
     if prediction:
         st.title(f"Your prediction is: {prediction}")
-        st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of having a heart disease.")
+        st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of experiencing a heart attack.")
