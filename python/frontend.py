@@ -84,21 +84,30 @@ with modelContainer:
 
     if st.button('Predict'):
         if age >= 50:
+            # run predict 
             prediction = classifier_o.predict(user_data)
             print(prediction)
             prediction_percentage = classifier_o.predict_proba(user_data)
             print(prediction_percentage)
+            # get the index with the highest percentage
             prediction_ind = np.argmax(prediction_percentage)
+            # get the index of positive, so we can later display the percentage of positive.
+            positive_ind = np.where(prediction[0] == 1)
             prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
-            prediction_percentage = prediction_percentage[0][prediction_ind]
+            prediction_percentage = prediction_percentage[0][positive_ind[0]][0]
         else:
+            # run predict 
             prediction = classifier_y.predict(user_data)
             print(prediction)
             prediction_percentage = classifier_o.predict_proba(user_data)
             print(prediction_percentage)
+            # get the index with the highest percentage
             prediction_ind = np.argmax(prediction_percentage)
+            # get the index of positive, so we can later display the percentage of positive.
+            positive_ind = np.where(prediction[0] == 1)
             prediction = 'Positive' if prediction[0][prediction_ind]==1 else 'Negative'
-            prediction_percentage = prediction_percentage[0][prediction_ind]
+            prediction_percentage = prediction_percentage[0][positive_ind[0]][0]
+
 
 resultContainer = st.container()
 with resultContainer:
