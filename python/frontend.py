@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 st.set_page_config(
-    page_title="Heart Disease Predictor",
+    page_title="Heart Attack Predictor",
     page_icon="💔",
     layout="centered"
 )
@@ -23,11 +23,11 @@ headerText = """
     _A Demonstration of Machine Learning in Medicine_
 """
 headerDescription = """
-    We have created a model that accurately predicts the likelihood of a person having heart disease.
+    We have created a model that accurately predicts the likelihood of a person having a heart attack.
 """
 with headerContainer:
     st.title("""
-        💔 Heart Disease Predictor 💔
+        💔 Heart Attack Predictor 💔
         ---
     """)
     st.subheader(headerText)
@@ -66,20 +66,39 @@ with modelContainer:
     # age = st.slider("How old are you?", min_value=0, max_value=125, step=1, format="%d")
 
     # sex = st.number_input('Male (1) or Female (0) ?')
-    sexRaw = st.radio("Gender", options=["Male", "Female"])
+    sexRaw = st.radio("Gender", options=["Male", "Female"], horizontal=True)
     sex = 1 if sexRaw == "Male" else 0
     
-    cp = st.number_input('What type of chest pain do you have? (1) typical angina (2) atypical angina (3) non-anginal pain (4) asymptomatic')
+    # cp = st.number_input('What type of chest pain do you have? (1) typical angina (2) atypical angina (3) non-anginal pain (4) asymptomatic')
+
+    cpRaw = st.radio("Gender", options=["Typical Angina", "Atypical Angina", "Non-Anginal Pain", "Asymptomatic"], horizontal=True)
+    cp = 1 if cpRaw == "Typical Angina" else 2 if cpRaw == "Atypical Angina" else 3 if cpRaw == "Non-Anginal Pain" else 4
+
     trt = st.number_input('What is resting blood pressure (in mm Hg)')
     chol = st.number_input('What is your cholesterol in mg/dl fetched via BMI sensor')
-    fbs = st.number_input('Is your fasting blood sugar over 120mg/dl? ( 1 / 0 )')
-    restecg = st.number_input('What is your resting electrocardiographic results? (0) Normal? (1)  having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV) (2) showing probable or definite left ventricular hypertrophy by Estes criteria')
-    thalachh = st.number_input('What is your maximum heart rate achieved')
-    exng = st.number_input('When you exercise do you have induced angina? (1) Yes? (0) No?')
+
+    # fbs = st.number_input('Is your fasting blood sugar over 120mg/dl? ( 1 / 0 )')
+
+    fbsRaw = st.radio("Is your fasting blood sugar over 120mg/dl?", options=["Yes", "No"], horizontal=True)
+    fbs = 1 if fbsRaw == "Yes" else 0
+
+    restecg = st.slider('What is your resting electrocardiographic results? (0) Normal? (1)  having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV) (2) showing probable or definite left ventricular hypertrophy by Estes criteria'
+                              , min_value=0, max_value=2, step=1, format="%d")
+    
+    thalachh = st.number_input('What is your maximum heart rate achieved',
+                               step=1)
+    
+    # exng = st.number_input('When you exercise do you have induced angina? (1) Yes? (0) No?')
+
+    exngRaw = st.radio("When you exercise do you have induced angina?", options=["Yes", "No"], horizontal=True)
+    exng = 1 if exngRaw == "Yes" else 0
+
+
     oldpeak = st.number_input('What is your previous peak?')
     slp = st.number_input('What is the slope of that peak')
     caa = st.number_input('How many major vessels do you have?')
-    thall = st.number_input('What were the results of your Thallium Stress Test Results? (0 - 3)')
+    thall = st.number_input('What were the results of your Thallium Stress Test Results? (0 - 3)',
+                            min_value=0.0, max_value=3.0, step=0.1)
 
     user_data = [[age, sex, cp, trt, chol, fbs, restecg, thalachh, exng, oldpeak, slp, caa, thall]]
     prediction = ''
@@ -116,4 +135,4 @@ resultContainer = st.container()
 with resultContainer:
     if prediction:
         st.title(f"Your prediction is: {prediction}")
-        st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of having a heart disease.")
+        st.markdown(f"You have a **{round(prediction_percentage*100, 2)}%** chance of having a heart attack.")
